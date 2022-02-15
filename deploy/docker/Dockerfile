@@ -2,6 +2,11 @@ ARG BUILD_FROM=emqx/build-env:erl23.2.7.2-emqx-3-alpine
 ARG RUN_FROM=alpine:3.12
 FROM ${BUILD_FROM} AS builder
 
+# 修改软件源地址为中科大的镜像地址地址，参见http://mirrors.ustc.edu.cn/help/alpine.html
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+RUN apk update
+
 RUN apk add --no-cache \
     git \
     curl \
@@ -46,6 +51,12 @@ COPY deploy/docker/docker-entrypoint.sh /usr/bin/
 COPY --from=builder /emqx/_build/$EMQX_NAME/rel/emqx /opt/emqx
 
 RUN ln -s /opt/emqx/bin/* /usr/local/bin/
+
+# 修改软件源地址为中科大的镜像地址地址，参见http://mirrors.ustc.edu.cn/help/alpine.html
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+RUN apk update
+
 RUN apk add --no-cache curl ncurses-libs openssl sudo libstdc++ bash
 
 WORKDIR /opt/emqx
@@ -54,7 +65,8 @@ RUN adduser -D -u 1000 emqx \
     && echo "emqx ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
 RUN chgrp -Rf emqx /opt/emqx && chmod -Rf g+w /opt/emqx \
-    && chown -Rf emqx /opt/emqx
+    && chown -Rf emqx /opt/emqx && chmod +x /usr/bin/docker-entrypoint.sh \
+    && chmod +x /opt/emqx/bin/*
 
 USER emqx
 

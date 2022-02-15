@@ -3,6 +3,7 @@ REBAR_VERSION = 3.14.3-emqx-8
 REBAR = $(CURDIR)/rebar3
 BUILD = $(CURDIR)/build
 SCRIPTS = $(CURDIR)/scripts
+export EMQX_EXTRA_PLUGINS = emqx_plugin_kafka
 export EMQX_DEFAULT_BUILDER = emqx/build-env:erl23.2.7.2-emqx-3-alpine
 export EMQX_DEFAULT_RUNNER = alpine:3.12
 export PKG_VSN ?= $(shell $(CURDIR)/pkg-vsn.sh)
