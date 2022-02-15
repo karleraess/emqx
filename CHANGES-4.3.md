@@ -10,6 +10,18 @@ File format:
 - One list item per change topic
   Change log ends with a list of github PRs
 
+## v4.3.13
+
+### Enhancements
+
+* CLI `emqx_ctl pem_cache clean` to force purge x509 certificate cache,
+  to force an immediate reload of all certificates after the files are updated on disk.
+
+### Bug fixes
+
+* Fix case where publishing to a non-existent topic alias would crash the connection [#6979]
+* Fix HTTP-API 500 error on querying the lwm2m client list on the another node [#7009]
+
 ## v4.3.12
 ### Important changes
 
