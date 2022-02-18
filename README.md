@@ -1,3 +1,4 @@
+**_【注】编译docker镜像前可以通过配置GIT_PROXY环境变量使得在编译过程中为git配置代理_**
 # EMQX Broker
 
 [![GitHub Release](https://img.shields.io/github/release/emqx/emqx?color=brightgreen)](https://github.com/emqx/emqx/releases)
