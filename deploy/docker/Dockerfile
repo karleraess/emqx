@@ -28,6 +28,8 @@ COPY . /emqx
 ARG PKG_VSN
 ARG EMQX_NAME=emqx
 
+ENV EMQX_RELUP=false
+
 RUN cd /emqx \
     && rm -rf _build/$EMQX_NAME/lib \
     && make $EMQX_NAME
@@ -43,7 +45,7 @@ LABEL org.label-schema.docker.dockerfile="Dockerfile" \
     org.label-schema.url="https://emqx.io" \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/emqx/emqx" \
-    maintainer="EMQ X Team <support@emqx.io>"
+    maintainer="EMQX Team <support@emqx.io>"
 
 ARG EMQX_NAME=emqx
 
