@@ -29,13 +29,13 @@ ARG PKG_VSN
 ARG EMQX_NAME=emqx
 
 ARG PROXY
-RUN echo "use PROXY=${PROXY}"
+RUN echo "use PROXY=" ${PROXY}
 RUN if [ ! -n "$PROXY" ]; then  \
         echo "NO PROXY"; \
     else  \
-        echo "use PROXY=${PROXY}"; \
-        git config --global http.proxy; $PROXY   \
-        git config --global https.proxy; $PROXY  \
+        echo "use PROXY=" ${PROXY}; \
+        git config --global http.proxy $PROXY;   \
+        git config --global https.proxy $PROXY;  \
     fi
 
 ENV EMQX_RELUP=false
