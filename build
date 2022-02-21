@@ -135,14 +135,24 @@ make_zip() {
 make_docker() {
     EMQX_BUILDER="${EMQX_BUILDER:-${EMQX_DEFAULT_BUILDER}}"
     EMQX_RUNNER="${EMQX_RUNNER:-${EMQX_DEFAULT_RUNNER}}"
-    set -x
-    docker build --no-cache --pull \
-       --build-arg BUILD_FROM="${EMQX_BUILDER}" \
-       --build-arg RUN_FROM="${EMQX_RUNNER}" \
-       --build-arg EMQX_NAME="$PROFILE" \
-       --build-arg PROXY="${GIT_PROXY}" \
-       --tag "emqx/$PROFILE:${PKG_VSN}" \
-       -f "${DOCKERFILE}" .
+    if (set -u; : "$GIT_PROXY"); then
+      set -x
+      docker build --no-cache --pull \
+         --build-arg BUILD_FROM="${EMQX_BUILDER}" \
+         --build-arg RUN_FROM="${EMQX_RUNNER}" \
+         --build-arg EMQX_NAME="$PROFILE" \
+         --build-arg PROXY="${GIT_PROXY}" \
+         --tag "emqx/$PROFILE:${PKG_VSN}" \
+         -f "${DOCKERFILE}" .
+    else
+      set -x
+      docker build --no-cache --pull \
+         --build-arg BUILD_FROM="${EMQX_BUILDER}" \
+         --build-arg RUN_FROM="${EMQX_RUNNER}" \
+         --build-arg EMQX_NAME="$PROFILE" \
+         --tag "emqx/$PROFILE:${PKG_VSN}" \
+         -f "${DOCKERFILE}" .
+    fi
 }
 
 log "building artifact=$ARTIFACT for profile=$PROFILE"
